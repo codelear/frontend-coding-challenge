@@ -1,81 +1,81 @@
-import "./App.css";
-import { useMemo, useState, useCallback } from "react";
-import CustomTable from "./components/CustomTable";
-import DropdownFilter from "./components/DropdownFilter";
-import { DateFilterUI, DateFilter } from "./components/DateFilter";
-import axios from "axios";
+import './App.css'
+import React, { useMemo, useState, useCallback } from 'react'
+import CustomTable from './components/CustomTable'
+import DropdownFilter from './components/DropdownFilter'
+import { DateFilterUI, DateFilter } from './components/DateFilter'
+import axios from 'axios'
 
-export default function App() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [pageCount, setPageCount] = useState(0);
-  const [filtersList, setFiltersList] = useState([]);
+export default function App () {
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [pageCount, setPageCount] = useState(0)
+  const [filtersList, setFiltersList] = useState([])
 
-  const dateFilter = DateFilter(filtersList);
+  const dateFilter = DateFilter(filtersList)
 
   const columns = useMemo(
     () => [
-      { Header: "name", accessor: "name", disableFilters: true },
-      { Header: "type", accessor: "type", disableFilters: true },
+      { Header: 'name', accessor: 'name', disableFilters: true },
+      { Header: 'type', accessor: 'type', disableFilters: true },
       {
-        Header: "startDate",
-        accessor: "startDate",
+        Header: 'startDate',
+        accessor: 'startDate',
         Filter: DateFilterUI,
-        filter: dateFilter,
+        filter: dateFilter
       },
       {
-        Header: "endDate",
-        accessor: "endDate",
+        Header: 'endDate',
+        accessor: 'endDate',
         Filter: DateFilterUI,
-        filter: dateFilter,
+        filter: dateFilter
       },
-      { Header: "memberNote", accessor: "memberNote", disableFilters: true },
+      { Header: 'memberNote', accessor: 'memberNote', disableFilters: true },
       {
-        Header: "Status",
-        accessor: "status",
+        Header: 'Status',
+        accessor: 'status',
         Filter: DropdownFilter,
-        filter: "includes",
+        filter: 'includes'
       },
       {
-        Header: "admitterNote",
-        accessor: "admitterNote",
-        disableFilters: true,
-      },
+        Header: 'admitterNote',
+        accessor: 'admitterNote',
+        disableFilters: true
+      }
     ],
     [dateFilter]
-  );
+  )
 
   const getDependantData = useCallback((absences) => {
     axios
       .all(
         absences.map((absence) => {
-          let status = absence["confirmedAt"]
-            ? "Confirmed"
-            : absence["rejectedAt"]
-            ? "Rejected"
-            : "Requested";
-          return axios.get(`/members/${absence["userId"]}`).then((res) => {
-            return { ...absence, status: status, name: res.data[0]["name"] };
-          });
+          const status = absence.confirmedAt
+            ? 'Confirmed'
+            : absence.rejectedAt
+              ? 'Rejected'
+              : 'Requested'
+          return axios.get(`/members/${absence.userId}`).then((res) => {
+            return { ...absence, status: status, name: res.data[0].name }
+          })
         })
       )
       .then((res) => {
-        setData(res);
-      });
-  }, []);
+        setData(res)
+      })
+  }, [])
 
   const fetchData = useCallback(
     ({ pageSize, pageIndex }) => {
       // Set the loading state
-      setLoading(true);
+      setLoading(true)
       axios.get(`/absences?pagenumber=${pageIndex + 1}`).then((res) => {
-        setPageCount(res.data.totalpages);
-        getDependantData(res.data.payload);
-      });
-      setLoading(false);
+        setPageCount(res.data.totalpages)
+        getDependantData(res.data.payload)
+      })
+      setLoading(false)
     },
     [getDependantData]
-  );
+  )
 
   return (
       <CustomTable
@@ -86,5 +86,5 @@ export default function App() {
         pageCount={pageCount}
         setFiltersList={setFiltersList}
       />
-  );
+  )
 }
