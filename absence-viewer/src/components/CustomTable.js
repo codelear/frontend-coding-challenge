@@ -44,7 +44,6 @@ export default function Table ({
     useFilters,
     usePagination
   )
-
   useEffect(() => {
     setFiltersList(filters)
   }, [filters, setFiltersList])
