@@ -36,7 +36,7 @@ export default function Paginator ({
           type="number"
           min="1"
           max={pageCount}
-          defaultValue={pageIndex + 1}
+          defaultValue={pageOptions.length>0?pageIndex + 1:0}
           onChange={(e) => {
             const page = e.target.value ? Number(e.target.value) - 1 : 0;
             gotoPage(page);
