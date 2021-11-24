@@ -4,6 +4,16 @@
   background-color: #ffeedb;
 }
 
+.blank{
+  margin:50px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.invisible{
+  visibility: hidden;
+}
+
 .title {
   font-weight: bold;
   padding-top: 6px;

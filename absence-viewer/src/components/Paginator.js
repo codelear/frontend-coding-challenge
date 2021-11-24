@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Paginator({
+export default function Paginator ({
   gotoPage,
   canPreviousPage,
   previousPage,
@@ -8,7 +8,7 @@ export default function Paginator({
   canNextPage,
   pageCount,
   pageIndex,
-  pageOptions,
+  pageOptions
 }) {
   return (
     <div className="pagination">
@@ -27,7 +27,7 @@ export default function Paginator({
       <span>
         Page{" "}
         <strong>
-          {pageIndex + 1} of {pageOptions.length}
+          {pageOptions.length>0?pageIndex + 1:0} of {pageOptions.length}
         </strong>{" "}
       </span>
       <span>

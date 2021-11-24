@@ -1,5 +1,5 @@
 import './App.css'
-import React, { useMemo, useState, useCallback } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 import CustomTable from './components/CustomTable'
 import DropdownFilter from './components/DropdownFilter'
 import { DateFilterUI, DateFilter } from './components/DateFilter'
@@ -10,6 +10,7 @@ export default function App () {
   const [loading, setLoading] = useState(false)
   const [pageCount, setPageCount] = useState(0)
   const [filtersList, setFiltersList] = useState([])
+  const [errored, setErrored] = useState(false);
 
   const dateFilter = DateFilter(filtersList)
 
@@ -68,23 +69,30 @@ export default function App () {
     ({ pageSize, pageIndex }) => {
       // Set the loading state
       setLoading(true)
+      setErrored(false);
       axios.get(`/absences?pagenumber=${pageIndex + 1}`).then((res) => {
         setPageCount(res.data.totalpages)
         getDependantData(res.data.payload)
-      })
-      setLoading(false)
+        setLoading(false);
+        setErrored(false);
+      }).catch((error) => {
+        setErrored(true);
+        setLoading(false)
+    })
     },
     [getDependantData]
   )
-
   return (
-      <CustomTable
-        columns={columns}
-        data={data}
-        fetchData={fetchData}
-        loading={loading}
-        pageCount={pageCount}
-        setFiltersList={setFiltersList}
-      />
-  )
+    <>
+      {errored && <div className="band">Error occured</div>}
+        <CustomTable
+          columns={columns}
+          data={data}
+          fetchData={fetchData}
+          loading={loading}
+          pageCount={pageCount}
+          setFiltersList={setFiltersList}
+        />
+    </>
+  );
 }
