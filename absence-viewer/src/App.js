@@ -84,15 +84,16 @@ export default function App () {
   )
   return (
     <>
+      <div className="App-header">Absence Viewer</div>
       {errored && <div className="band">Error occured</div>}
-        <CustomTable
-          columns={columns}
-          data={data}
-          fetchData={fetchData}
-          loading={loading}
-          pageCount={pageCount}
-          setFiltersList={setFiltersList}
-        />
+      <CustomTable
+        columns={columns}
+        data={data}
+        fetchData={fetchData}
+        loading={loading}
+        pageCount={pageCount}
+        setFiltersList={setFiltersList}
+      />
     </>
   );
 }
