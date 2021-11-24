@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 
+// the UI to display the input field for the date filter
 export function DateFilterUI ({
   column: { filterValue, preFilteredRows, setFilter }
 }) {
@@ -14,6 +15,16 @@ export function DateFilterUI ({
   )
 }
 
+// we get the complete list of filters from the CustomTable
+// and we use this list to get the start and end date to filter
+// if only start date is available. then data is filtered on the condition
+// startdate == date value from start date filter
+// if only end date is available. then data is filtered on the condition
+// end date == date value from start date filter
+// if both start and end date is available then fitler on the condition
+// startdate >= date value from start date filter and 
+// enddate <=date value from end date filter
+// return the filtered rows 
 export const DateFilter = (filtersList) =>
   useMemo(
     () => (rows, columnIds, filterValue) => {

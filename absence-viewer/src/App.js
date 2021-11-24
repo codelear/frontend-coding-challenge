@@ -14,6 +14,7 @@ export default function App () {
 
   const dateFilter = DateFilter(filtersList)
 
+  // the fields we want to display
   const columns = useMemo(
     () => [
       { Header: 'name', accessor: 'name', disableFilters: true },
@@ -46,6 +47,7 @@ export default function App () {
     [dateFilter]
   )
 
+  // get the status and member name
   const getDependantData = useCallback((absences) => {
     axios
       .all(

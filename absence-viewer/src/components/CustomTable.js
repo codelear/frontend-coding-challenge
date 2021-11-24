@@ -3,9 +3,7 @@ import { useTable, usePagination, useFilters } from 'react-table'
 import Paginator from './Paginator'
 import styles from '../styles/CustomTable.module.css'
 
-// Let's add a fetchData method to our Table component that will be used to fetch
-// new data when pagination state changes
-// We can also add a loading state to let our table know it's loading new data
+// based on the react-table 
 export default function Table ({
   columns,
   data,
@@ -15,8 +13,6 @@ export default function Table ({
   setFiltersList
 }) {
   const {
-    getTableProps,
-    getTableBodyProps,
     headerGroups,
     prepareRow,
     page,
@@ -43,7 +39,10 @@ export default function Table ({
     },
     useFilters,
     usePagination
-  )
+    )
+  // we need the complete list of filters
+  // because dates are 2 fields and we need to filter
+  // based on the data combination from 2 fields
   useEffect(() => {
     setFiltersList(filters)
   }, [filters, setFiltersList])

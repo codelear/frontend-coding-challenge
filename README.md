@@ -4,91 +4,67 @@
 
 # 🚀 Crewmeister coding challenge - Frontend (React)
 
-Hello and thanks in participating in the crewmeister coding challenge. This coding exercise will help us get a better feeling about your coding process.
-
-If you have any questions, we're happy to help you. Reach the devs at challenge@crewmeister.com.
 
 ## Context
 
-At Crewmeister we like to work closely with our clients, listening to their demands and developing solutions for their problems. One of the most requested features is a way for company owners to manage sickness and vacations of employees.
+The answer to the coding challenged is divided into 2 parts
+  
+  1. Absence server - Backend serves the api to get the absence and members data 
+  
+  2. Absence viewer - Front end to view the absence data
 
-We decided to implement this feature for our clients and we are calling it the Absence Manager.
+## Absense server
 
-## Product Requirements
+Implements http get request for 
 
-- [ ] I want to see a list of absences including the names of the employees.
-- [ ] I want to see the first 10 absences, with the ability to paginate.
-- [ ] I want to see a total number of absences.
-- [ ] For each absence I want to see:
-  - [ ] Member name
-  - [ ] Type of absence
-  - [ ] Period
-  - [ ] Member note (when available)
-  - [ ] Status (can be 'Requested', 'Confirmed' or 'Rejected')
-  - [ ] Admitter note (when available)
-- [ ] I want to filter absences by type.
-- [ ] I want to filter absences by date.
-- [ ] I want to see a loading state until the list is available.
-- [ ] I want to see an error state if the list is unavailable.
-- [ ] I want to see an empty state if there are no results.
-- [ ] (Bonus) I can generate an iCal file and import it into outlook.
+  1. Absence Data
 
-## Your Mission
+    - /absence?pagenumber=<pagenumber>  
+    
+    Returns
+    
+    payload:[{}] array of max 10 elements.
+    pagenumber: current pagenumber
+    totalpages: total number of pages 
+    
+    by default pagenumber = 1 so /absence and /absence?pagenumber=1 return the same resutls
 
-Create the React application that satisfies all must-have requirements above, plus any nice-to-have requirements you wish to include.
+  2. Members Data 
+  
+    - /members 
+    
+      Returns 
+      
+      [{}] array of details of all the members 
+  
+    - /members/<id> 
+    
+      Returns 
+      
+      [{}] with the matching member or empty array
 
-We provided a couple of JSON files with the mock data necessary to implement the screens, you can use the files straight into the frontend or create a small API (bonus), it's your choice.
+### To Start
+  1. cd to folder absence-server
+  2. in the terminal execute "npm install" to get the dependencies
+  3. in the terminal execute "npm run start" to start the server. Server runs in port 5000 
 
-You can use any boilerplate/approach you prefer (nextjs, create react app, ...), but try to keep it simple. We encourage you to use your favorite tools and packages to build a solid React application.
+## Absence viewer
 
-You can assume that you do not have to support legacy browsers. Feel free to use modern features such as **fetch** or **flexbox**.
+  The react front end to display the absence data
 
-(bonus) Host the website on the service of your choice (Heroku, AWS, GCloud, ...).
+  The following functionality is available.
+  1. Display 10 rows at a page with pagination. Pagination calls the server to return the next set of data
+  2. Filter upon status, start date and end date the current page. Changing the pages resets the filters
+  3. Date Filter works as follows. Only start date or end date is input in the filter, then data is filtered having the same start date or end date. If both start date and end date is input in the filter, then the data is filtered with the dates 
+between the start and end date
+  4. Shows loading state, when data is loading
+  5. Shows error state, when error occurs during loading
 
-Optional: build the project and deploy (ie make it available as a static project) on Github Pages, otherwise please provide detailed instructions on how to start the project locally.
+The absence viewer makes use of the react table library. https://github.com/tannerlinsley/react-table
 
-## Tech Requirements
 
-- React
-- Tests: Jest + react-testing-library / enzyme
-- Code Linter
-- Redux is a plus.
-- Typescript is a plus.
-- CSSinJS is a plus: styled-components, styled-system, ...
-
-## Instructions
-
-- Clone this repo.
-- The challenge is on!
-- Build a performant, clean and well-structured solution.
-- Commit early and often. We want to be able to check your progress.
-- Include a README with instructions on how to run your project.
-- Please complete your working solution within 7 days of receiving this challenge.
-- Whenever you're done please deliver the project following the instructions below.
-
-We'll review your submission as soon as possible. Key-points we're going to review:
-
-- Naming (files, functions, components, ...).
-- Tests.
-- Code structure, readability, performance and consistency.
-- function lengths.
-- Commits + commit messages.
-- Clean code.
-- Good documentation and README instructions.
-
-An essential part of the challenge is also coming up with your own solutions and making reasonable assumptions about the implementation of the acceptance criteria.
-
-## Project delivery instructions
-
-To submit the project for evaluation please follow the steps below:
-
-- Create a **public** repo on your personal Github.
-- Add the new repo as a _remote_ on your local repo.
-- Push your code to your new remote repo.
-- Send us the link! The e-mail is: challenge@crewmeister.com
-
-## That's it!
-
-Happy coding!
-
-<img src="https://user-images.githubusercontent.com/5693916/30273942-84252588-96fb-11e7-9420-5516b92cb1f7.gif" data-canonical-src="https://user-images.githubusercontent.com/5693916/30273942-84252588-96fb-11e7-9420-5516b92cb1f7.gif" width="150" height="150" />
+  ### To Start
+  1. cd to folder absence-viewer
+  2. in the terminal execute "npm install" to get the dependencies
+  3. in the terminal execute "npm run start" to start
+  4. in browser open http://localhost:3000 or url as mentioned in the terminal after step 3 
